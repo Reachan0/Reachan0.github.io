@@ -172,8 +172,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="sb部长"><a href="#sb部长" class="headerlink" title="sb部长"></a>sb部长</h2>
+        <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>C 库函数 <strong>void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*))</strong> 对数组进行排序。</p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>下面是 qsort() 函数的声明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*))</span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><ul>
+<li><strong>base</strong> – 指向要排序的数组的第一个元素的指针。</li>
+<li><strong>nitems</strong> – 由 base 指向的数组中元素的个数。</li>
+<li><strong>size</strong> – 数组中每个元素的大小，以字节为单位。</li>
+<li><strong>compar</strong> – 用来比较两个元素的函数。</li>
+</ul>
+<h2 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h2><p>该函数不返回任何值。</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>下面的实例演示了 qsort() 函数的用法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int values[] &#x3D; &#123; 88, 56, 100, 2, 25 &#125;;</span><br><span class="line"></span><br><span class="line">int cmpfunc (const void * a, const void * b)</span><br><span class="line">&#123;</span><br><span class="line">   return ( *(int*)a - *(int*)b );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   int n;</span><br><span class="line"></span><br><span class="line">   printf(&quot;排序之前的列表：\n&quot;);</span><br><span class="line">   for( n &#x3D; 0 ; n &lt; 5; n++ ) &#123;</span><br><span class="line">      printf(&quot;%d &quot;, values[n]);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   qsort(values, 5, sizeof(int), cmpfunc);</span><br><span class="line"></span><br><span class="line">   printf(&quot;\n排序之后的列表：\n&quot;);</span><br><span class="line">   for( n &#x3D; 0 ; n &lt; 5; n++ ) &#123;</span><br><span class="line">      printf(&quot;%d &quot;, values[n]);</span><br><span class="line">   &#125;</span><br><span class="line">  </span><br><span class="line">  return(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>让我们编译并运行上面的程序，这将产生以下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">排序之前的列表：</span><br><span class="line">88 56 100 2 25 </span><br><span class="line">排序之后的列表：</span><br><span class="line">2 25 56 88 100</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Compar参数"><a href="#Compar参数" class="headerlink" title="Compar参数"></a>Compar参数</h2><p>compar 参数指向一个比较两个元素的函数。比较函数的原型应该像下面这样。注意两个形参必须是 <strong>const void *</strong> 型，同时在调用 compar 函数（compar 实质为函数指针，这里称它所指向的函数也为 compar）时，传入的实参也必须转换成<strong>const void *</strong> 型。在 compar 函数内部会将 <strong>const void *</strong> 型转换成实际类型，见下文。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int compar(const void *p1, const void *p2);</span><br></pre></td></tr></table></figure>
+
+<p>如果 compar 返回值小于 0（&lt; 0），那么 p1 所指向元素会被排在p2所指向元素的前面如果 compar 返回值等于 0（= 0），那么 p1 所指向元素与 p2 所指向元素的顺序不确定如果 compar 返回值大于 0（&gt; 0），那么 p1 所指向元素会被排在 p2 所指向元素的后面。</p>
+
       
 
       
